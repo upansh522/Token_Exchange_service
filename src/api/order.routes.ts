@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { pgPool } from "../db/postgres";
 import { orderQueue } from "../queue/order.queue";
 import { OrderSchema } from "../zod/order";
+import { registerSocket } from "../websocket/socket.manager";
 
 export async function orderRoutes(app: FastifyInstance) {
     app.post("/api/orders/execute", async (req, reply) => {
@@ -34,4 +35,12 @@ export async function orderRoutes(app: FastifyInstance) {
 
         return { orderId };
     });
+
+app.get(
+  "/ws/orders",
+  { websocket: true },
+  (connection, req) => {
+    registerSocket(connection.socket);
+  }
+);
 }
