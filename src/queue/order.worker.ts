@@ -1,6 +1,7 @@
 import { Worker } from "bullmq";
 import dotenv from "dotenv";
 import path from "path";
+import IORedis from "ioredis";
 
 dotenv.config({ path: path.resolve(__dirname, "../.env") });
 import { getBestDexQuote } from "../dex/dex.router";
@@ -89,9 +90,11 @@ new Worker(
     },
     {
         concurrency: 10,
-        connection: {
-            host: process.env.REDIS_HOST,
-            port: Number(process.env.REDIS_PORT)
-        }
+        connection: new IORedis(process.env.REDIS_URL!, {
+            maxRetriesPerRequest: null,
+            tls: {
+                rejectUnauthorized: false
+            }
+        }) as any
     }
 );
