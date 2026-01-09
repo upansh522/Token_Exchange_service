@@ -3,6 +3,7 @@ import Fastify from "fastify";
 import websocket from "@fastify/websocket";
 import { orderRoutes } from "./api/order.routes";
 dotenv.config();
+import "./queue/order.worker";
 
 const app = Fastify({ logger: true });
 
