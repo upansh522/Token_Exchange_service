@@ -1,7 +1,8 @@
-import "./env";
+import dotenv from "dotenv";
 import Fastify from "fastify";
 import websocket from "@fastify/websocket";
 import { orderRoutes } from "./api/order.routes";
+dotenv.config();
 
 const app = Fastify({ logger: true });
 
