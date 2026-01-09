@@ -12,6 +12,8 @@ app.register(orderRoutes);
 
 const PORT = Number(process.env.PORT);
 
-app.listen({ port: PORT }, () => {
+app.listen({ port: PORT,
+     host: "0.0.0.0"
+ }, () => {
     console.log("Server running on port", PORT);
 });
