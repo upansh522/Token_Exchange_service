@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify";
 import crypto from "crypto";
-import { pgPool } from "../db/postgres";
+import { sql } from "../db/postgres";
 import { orderQueue } from "../queue/order.queue";
 import { OrderSchema } from "../zod/order";
 import { registerSocket } from "../websocket/socket.manager";
@@ -17,10 +17,7 @@ export async function orderRoutes(app: FastifyInstance) {
         const orderId = crypto.randomUUID();
 
         try {
-            await pgPool.query(
-                "INSERT INTO orders (id, token_in, token_out, amount, status) VALUES ($1,$2,$3,$4,$5)",
-                [orderId, tokenIn, tokenOut, amount, "pending"]
-            );
+            await sql`INSERT INTO orders (id, token_in, token_out, amount, status) VALUES (${orderId}, ${tokenIn}, ${tokenOut}, ${amount}, 'pending')`;
 
             await orderQueue.add("execute-order", {
                 orderId,
@@ -36,11 +33,11 @@ export async function orderRoutes(app: FastifyInstance) {
         return { orderId };
     });
 
-app.get(
-  "/ws/orders",
-  { websocket: true },
-  (connection, req) => {
-    registerSocket(connection.socket);
-  }
-);
+    app.get(
+        "/ws/orders",
+        { websocket: true },
+        (connection, req) => {
+            registerSocket(connection.socket);
+        }
+    );
 }
