@@ -33,11 +33,11 @@ export async function orderRoutes(app: FastifyInstance) {
         return { orderId };
     });
 
-    app.get(
-        "/ws/orders",
-        { websocket: true },
-        (connection, req) => {
-            registerSocket(connection.socket);
-        }
-    );
+   app.get(
+  "/ws/orders",
+  { websocket: true },
+  (connection, req) => {
+    registerSocket(connection);
+  }
+);
 }
