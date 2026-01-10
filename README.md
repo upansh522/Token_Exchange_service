@@ -4,6 +4,16 @@
 Api= https://token-exchange-service.onrender.com/api/orders/execute
 WebSocket API= wss://token-exchange-service.onrender.com/ws/orders
 
+## Tech Stack Used
+Node.js – Backend runtime
+TypeScript – Type-safe development
+Fastify – HTTP API and WebSocket server
+BullMQ – Queue-based order processing
+Redis – Job queue and state management
+PostgreSQL (Neon) – Persistent order storage
+WebSockets – Real-time order status updates
+Render – Cloud deployment and hosting
+
 ## Project Overview
 
 This project is a backend Order Execution Engine designed to simulate how decentralized exchange (DEX) trading systems process and execute orders. It accepts market orders via a REST API, routes them to the best available execution venue by comparing prices from multiple DEXs, and provides real-time execution status updates through WebSockets.
@@ -57,6 +67,7 @@ npm run dev
 
 4. Access APIs
 test using Postman
+
 
 
 
